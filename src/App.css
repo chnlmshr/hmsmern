@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-background {
+  background-color: #5398ba;
+}
+
+.navbar-button {
+  background-color: #005fcc;
+  color: #fff;
+}
+
+.navbar-button:hover {
+  background-color: #004ca3;
+  color: #fff;
+}
+
+.form-container {
+  border: black 2px solid;
+  border-radius: 10px;
+}
+
+.footer {
+  background-color: #1a75a3;
+  color: #fff;
+}
+
+.footerlink {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footerlink:hover {
+  color: #fff;
+}
+
+.pnf {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#error {
+  color: orangered;
+}
+
+.nav-dropdown-link-color {
+  color: #ffffffec;
+}
+
+.nav-dropdown-link-color:hover {
+  color: #fff;
+}
+
+.dashboard-icon {
+  color: #5398ba;
+}
+
+.visit-card,
+.choose-doc-card {
+  border-radius: 10px;
+  border: 2px solid #ccc5c5;
+}
+
+.choose-doc-card:hover {
+  border: 2px solid #747474;
+}
+
+.report {
+  border: 2px solid #747474;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  .report {
+    border: none;
+  }
+}
+
+.successMessage {
+  color: #008035;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .section-to-print,
+  .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
