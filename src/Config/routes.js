@@ -9,6 +9,8 @@ import ChooseDoctor from "../components/ChooseDoctor";
 import Visit from "../components/Visit";
 import Report from "../components/Report";
 import { Admin, AdminLogin } from "../components/Admin";
+import PatientList from "../components/PatientList";
+import DoctorReport from "../components/DoctorReport";
 
 const routes = [
   {
@@ -52,6 +54,11 @@ const routes = [
     type: "doctor",
   },
   {
+    path: "/doctor/report",
+    component: DoctorReport,
+    type: "doctor",
+  },
+  {
     path: "/patient/changepassword",
     component: ChangePassword,
     type: "patient",
@@ -59,6 +66,11 @@ const routes = [
   {
     path: "/doctor/changepassword",
     component: ChangePassword,
+    type: "doctor",
+  },
+  {
+    path: "/patientlist",
+    component: PatientList,
     type: "doctor",
   },
   {

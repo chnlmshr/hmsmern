@@ -5,6 +5,7 @@ import {
   updateAccount,
   logout,
   fetchPatient,
+  fetchDoctor,
 } from "../Context";
 import { Navigation } from "./Navigation";
 
@@ -256,14 +257,41 @@ export const PatientAccount = (props) => {
 };
 
 export const DoctorAccount = (props) => {
+  const name = localStorage.getItem("currentUser")
+    ? Boolean(JSON.parse(localStorage.getItem("currentUser")).name)
+      ? JSON.parse(localStorage.getItem("currentUser")).name
+      : ""
+    : "";
+  const email = localStorage.getItem("currentUser")
+    ? Boolean(JSON.parse(localStorage.getItem("currentUser")).email)
+      ? JSON.parse(localStorage.getItem("currentUser")).email
+      : ""
+    : "";
+  const phone = localStorage.getItem("currentUser")
+    ? Boolean(JSON.parse(localStorage.getItem("currentUser")).phone)
+      ? JSON.parse(localStorage.getItem("currentUser")).phone
+      : ""
+    : "";
+  const speciality = localStorage.getItem("currentUser")
+    ? Boolean(JSON.parse(localStorage.getItem("currentUser")).speciality)
+      ? JSON.parse(localStorage.getItem("currentUser")).speciality
+      : ""
+    : "";
+  const degree = localStorage.getItem("currentUser")
+    ? Boolean(JSON.parse(localStorage.getItem("currentUser")).degree)
+      ? JSON.parse(localStorage.getItem("currentUser")).degree
+      : ""
+    : "";
+  const avgDiagnosisTime = localStorage.getItem("currentUser")
+    ? JSON.parse(localStorage.getItem("currentUser")).avgDiagnosisTime
+    : "";
   const initialState = {
-    phone: "",
-    email: "",
-    customaddress: "",
-    city: "",
-    state: "",
-    zip: "",
-    degree: "",
+    name: "" || name,
+    phone: "" || phone,
+    email: "" || email,
+    speciality: "" || speciality,
+    degree: "" || degree,
+    avgDiagnosisTime: "" || avgDiagnosisTime,
     errorMessage: "",
     successMessage: "",
   };
@@ -284,12 +312,14 @@ export const DoctorAccount = (props) => {
         ...state,
         token: "doctor " + token,
       });
-      if (res.success)
+      if (res.success) {
+        await fetchDoctor(dispatch, token);
         setState({
-          ...initialState,
+          ...state,
           successMessage: "Data successfully Updated!",
         });
-      else setState({ ...initialState, errorMessage: "Something went wrong!" });
+      } else
+        setState({ ...initialState, errorMessage: "Something went wrong!" });
     } catch (error) {
       setState({ ...initialState, errorMessage: "Something went wrong!" });
     }
@@ -297,120 +327,106 @@ export const DoctorAccount = (props) => {
 
   return (
     <div>
-      <Navigation homelink="/doctor" />
+      <Navigation homelink="/doctor" active="account" />
       <div className="container">
         <div className="row my-5 py-md-5">
           <div className="offset-md-2 col-md-8">
             <div id="accordion">
               <div className="card">
-                <div className="card-header" id="headingOne">
-                  <h5 className="mb-0">
-                    <button
-                      className="btn btn-link"
-                      data-toggle="collapse"
-                      data-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      Personal
-                    </button>
-                  </h5>
-                </div>
-
-                <div
-                  id="collapseOne"
-                  className="collapse show"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordion"
-                >
-                  <div className="card-body">
-                    <form className="p-3" onSubmit={handleOnSubmit}>
-                      <div className="form-group">
-                        <input
-                          type="phone"
-                          className="form-control"
-                          name="phone"
-                          value={state.phone}
-                          onChange={handleOnChange}
-                          placeholder="Phone"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="email"
-                          className="form-control"
-                          name="email"
-                          value={state.email}
-                          onChange={handleOnChange}
-                          placeholder="Email"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="degree"
-                          value={state.degree}
-                          onChange={handleOnChange}
-                          placeholder="Degree"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="customaddress"
-                          value={state.customaddress}
-                          onChange={handleOnChange}
-                          placeholder="H No. 123, Near xyz"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="city"
-                          value={state.city}
-                          onChange={handleOnChange}
-                          placeholder="City"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="state"
-                          value={state.state}
-                          onChange={handleOnChange}
-                          placeholder="State"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="number"
-                          className="form-control"
-                          name="zip"
-                          aria-describedby="error"
-                          value={state.zip}
-                          onChange={handleOnChange}
-                          placeholder="Zip"
-                        />
-                        <small id="error" className="form-text">
-                          {state.errorMessage}
-                          <div className="successMessage">
-                            {state.successMessage}
-                          </div>
-                        </small>
-                      </div>
-                      <button
-                        disabled={loading}
-                        type="submit"
-                        className="btn btn-primary"
+                <div className="card-body">
+                  <form className="p-3" onSubmit={handleOnSubmit}>
+                    <h5 className="pb-3">Update Account</h5>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="name"
+                        value={state.name}
+                        onChange={handleOnChange}
+                        placeholder="Name"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="phone"
+                        className="form-control"
+                        name="phone"
+                        value={state.phone}
+                        onChange={handleOnChange}
+                        placeholder="Phone"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        value={state.email}
+                        onChange={handleOnChange}
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div className="input-group mb-3">
+                      <select
+                        name="speciality"
+                        className="custom-select"
+                        value={state.speciality}
+                        onChange={handleOnChange}
                       >
-                        Update
-                      </button>
-                    </form>
-                  </div>
+                        <option value="">Choose speciality</option>
+                        <option value="Dental">Dental</option>
+                        <option value="ENT">ENT</option>
+                        <option value="Gynecology">Gynecology</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Pulmonology">Pulmonology</option>
+                        <option value="Neprology">Neprology</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Oncology">Oncology</option>
+                        <option value="Orthopaedics">Orthopaedics</option>
+                        <option value="Dermatology">Dermatology</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text">
+                            Average Diagnosis Time (in hours)
+                          </div>
+                        </div>
+                        <input
+                          type="avgDiagnosisTime"
+                          className="form-control"
+                          name="avgDiagnosisTime"
+                          value={state.avgDiagnosisTime}
+                          onChange={handleOnChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="degree"
+                        aria-describedby="error"
+                        value={state.degree}
+                        onChange={handleOnChange}
+                        placeholder="Degree (Highest)"
+                      />
+                      <small id="error" className="form-text">
+                        {state.errorMessage}
+                        <div className="successMessage">
+                          {state.successMessage}
+                        </div>
+                      </small>
+                    </div>
+                    <button
+                      disabled={loading}
+                      type="submit"
+                      className="btn btn-primary"
+                    >
+                      Update
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

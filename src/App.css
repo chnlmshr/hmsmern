@@ -62,12 +62,14 @@
 }
 
 .visit-card,
-.choose-doc-card {
+.choose-doc-card,
+.choose-pat-card {
   border-radius: 10px;
   border: 2px solid #ccc5c5;
 }
 
-.choose-doc-card:hover {
+.choose-doc-card:hover,
+.choose-pat-card:hover {
   border: 2px solid #747474;
 }
 
@@ -84,6 +86,11 @@
 
 .successMessage {
   color: #008035;
+}
+
+.search-patient-list {
+  border-radius: 20px;
+  text-align: center;
 }
 
 @media print {

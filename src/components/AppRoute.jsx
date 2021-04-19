@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-
+// import { CSSTransition } from "react-transition-group";
 import { useAuthState } from "../Context";
 
 const AppRoute = ({ component: Component, path, type, ...rest }) => {

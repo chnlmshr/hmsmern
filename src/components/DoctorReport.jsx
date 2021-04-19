@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useAuthDispatch, useAuthState } from "../Context";
-import { report } from "../Context/actions";
+import { EditDoctorReport, useAuthDispatch, useAuthState } from "../Context";
+import { doctorReport } from "../Context";
 import { Navigation } from "./Navigation";
-const Report = (props) => {
+const DoctorReport = (props) => {
   const initialState = {
     dateCreated: "",
     lastModified: "",
@@ -15,21 +15,60 @@ const Report = (props) => {
     consultantWord: "",
     allergies: "",
     medicines: "",
+    errMessage: "",
+    successMessage: "",
   };
   const dispatch = useAuthDispatch(),
     { token, loading } = useAuthState();
   const [state, setState] = useState(initialState);
   useEffect(async () => {
-    const data = await report(dispatch, token);
-    console.log(data);
-    if (data && data.success) {
-      setState(data.report);
+    const patientId = localStorage.getItem("patientId");
+    if (Boolean(patientId)) {
+      const data = await doctorReport(dispatch, {
+        token: "doctor " + token,
+        patientId: patientId,
+      });
+      console.log(data);
+      if (data && data.success) {
+        setState(data.report);
+      }
+    } else {
+      props.history.push("/patientlist");
     }
   }, []);
+  const handleOnChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+      successMessage: "",
+      errMessage: "",
+    });
+  };
+  const update = async () => {
+    const data = await EditDoctorReport(dispatch, {
+      token: "doctor " + token,
+      patientId: localStorage.getItem("patientId"),
+      consultantWord: state.consultantWord,
+      medicines: state.medicines,
+    });
+    if (data && data.success) {
+      setState({
+        ...state,
+        successMessage: "Report Updated Successfully!",
+        errorMessage: "",
+      });
+    } else {
+      setState({
+        ...state,
+        errorMessage: "Something went wrong!",
+        successMessage: "",
+      });
+    }
+  };
   if (!loading && state.name === "") {
     return (
       <div>
-        <Navigation homelink="/patient" active="report" />
+        <Navigation homelink="/doctor" active="report" />
         <div className="container">
           <div className="row mt-5"></div>
           <div className="row mt-5"></div>
@@ -60,7 +99,7 @@ const Report = (props) => {
   } else
     return (
       <div>
-        <Navigation homelink="/patient" active="report" />
+        <Navigation homelink="/doctor" active="report" />
         <div className="container">
           <div className="row m-2 m-md-5">
             <div className="offset-md-2 col-md-8 report p-5 section-to-print">
@@ -103,16 +142,51 @@ const Report = (props) => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-12 text-justify mt-4">
-                  <strong>Consultats's Word: </strong> {state.consultantWord}
+                <div className="col-6 text-justify mt-4">
+                  <div className="form-group">
+                    <label htmlFor="consultantWord">
+                      <strong>Consultats's Word: </strong>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="consultantWord"
+                      name="consultantWord"
+                      rows="3"
+                      onChange={handleOnChange}
+                      value={state.consultantWord}
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="col-6 text-justify mt-4">
+                  <div className="form-group">
+                    <label htmlFor="medicines">
+                      <strong>Medicines: </strong>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="medicines"
+                      name="medicines"
+                      rows="3"
+                      onChange={handleOnChange}
+                      value={state.medicines}
+                    ></textarea>
+                  </div>
                 </div>
               </div>
               <div className="row mt-4">
-                <div className="col-6">
+                <div className="col-12">
                   <strong>Allergies:</strong> {state.allergies}
                 </div>
-                <div className="col-6">
-                  <strong>Medicines:</strong> {state.medicines}
+              </div>
+              <div className="row mt-4">
+                <div className="col-10">
+                  <small className="text-danger">{state.errorMessage}</small>
+                  <small className="text-success">{state.successMessage}</small>
+                </div>
+                <div className="col-2">
+                  <button className="btn btn-primary" onClick={update}>
+                    Update
+                  </button>
                 </div>
               </div>
             </div>
@@ -122,4 +196,4 @@ const Report = (props) => {
     );
 };
 
-export default Report;
+export default DoctorReport;

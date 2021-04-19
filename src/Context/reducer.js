@@ -80,7 +80,7 @@ export const AuthReducer = (initialState, action) => {
     case "DOCTOR_FETCH_SUCCESS":
       return {
         ...initialState,
-        doctor: action.payload.doctor,
+        doctor: action.payload,
       };
 
     case "REQUEST_CHANGE_PASSWORD":
@@ -152,6 +152,22 @@ export const AuthReducer = (initialState, action) => {
         loading: false,
       };
     case "CHOOSE_DOCTOR_ERROR":
+      return {
+        ...initialState,
+        loading: false,
+      };
+
+    case "REQUEST_CHOOSE_PATIENT":
+      return {
+        ...initialState,
+        loading: true,
+      };
+    case "CHOOSE_PATIENT_SUCCESS":
+      return {
+        ...initialState,
+        loading: false,
+      };
+    case "CHOOSE_PATIENT_ERROR":
       return {
         ...initialState,
         loading: false,

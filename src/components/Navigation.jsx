@@ -23,53 +23,85 @@ export const Navigation = (props) => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li
-            className={
-              "nav-item " + (props.active === "dashboard" ? "active" : "")
-            }
-          >
-            <a className="nav-link" href={props.homelink}>
-              Home
-            </a>
-          </li>
-          <li
-            className={
-              "nav-item " + (props.active === "account" ? "active" : "")
-            }
-          >
-            <a className="nav-link" href={props.homelink + "/account"}>
-              Account
-            </a>
-          </li>
-          <li
-            className={
-              "nav-item " + (props.active === "report" ? "active" : "")
-            }
-          >
-            <a className="nav-link" href={"/report"}>
-              Report
-            </a>
-          </li>
-          <li
-            className={
-              "nav-item " + (props.active === "reception" ? "active" : "")
-            }
-          >
-            <a className="nav-link" href={"/reception"}>
-              Reception
-            </a>
-          </li>
-          <li
-            className={
-              "nav-item " + (props.active === "choosedoctor" ? "active" : "")
-            }
-          >
-            <a className="nav-link" href={"/choosedoctor"}>
-              Choose Doctor
-            </a>
-          </li>
-        </ul>
+        {props.homelink === "/patient" ? (
+          <ul className="navbar-nav mr-auto">
+            <li
+              className={
+                "nav-item " + (props.active === "dashboard" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={props.homelink}>
+                Home
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "account" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={props.homelink + "/account"}>
+                Account
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "report" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={"/report"}>
+                Report
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "reception" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={"/reception"}>
+                Reception
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "choosedoctor" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={"/choosedoctor"}>
+                Choose Doctor
+              </a>
+            </li>
+          </ul>
+        ) : (
+          <ul className="navbar-nav mr-auto">
+            <li
+              className={
+                "nav-item " + (props.active === "dashboard" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={props.homelink}>
+                Home
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "account" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={props.homelink + "/account"}>
+                Account
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "patientlist" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={"/patientlist"}>
+                Patients
+              </a>
+            </li>
+          </ul>
+        )}
         <div className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle nav-dropdown-link-color"
@@ -82,7 +114,9 @@ export const Navigation = (props) => {
           >
             Hi,{" "}
             {props.username ||
-              JSON.parse(localStorage.getItem("currentUser")).name}
+            Boolean(JSON.parse(localStorage.getItem("currentUser")).name)
+              ? JSON.parse(localStorage.getItem("currentUser")).name
+              : "User"}
           </a>
           <div
             className="dropdown-menu dropdown-menu-lg-right"
