@@ -15,13 +15,13 @@ const Report = (props) => {
     consultantWord: "",
     allergies: "",
     medicines: "",
+    bedAllocated: 0,
   };
   const dispatch = useAuthDispatch(),
     { token, loading } = useAuthState();
   const [state, setState] = useState(initialState);
   useEffect(async () => {
     const data = await report(dispatch, token);
-    console.log(data);
     if (data && data.success) {
       setState(data.report);
     }
@@ -90,8 +90,12 @@ const Report = (props) => {
 
               <hr />
               <div className="row mt-3">
-                <div className="col-6">
+                <div className="col-4">
                   <strong>Blood Group:</strong> {state.blood_group}
+                </div>
+                <div className="col-2">
+                  <strong>Bed:</strong>{" "}
+                  {state.bedAllocated > 0 ? state.bedAllocated : "N/A"}
                 </div>
                 <div className="col-6">
                   <strong>Consultant:</strong> {state.consultant}

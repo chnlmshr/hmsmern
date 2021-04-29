@@ -424,6 +424,33 @@ export async function registerDoctor(dispatch, registerPayload) {
   }
 }
 
+export async function bedUpdate(dispatch, payload) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  };
+
+  try {
+    dispatch({ type: "REQUEST_BED_UPDATE" });
+    let response = await fetch(
+      `${ROOT_URL}/api/bedupdate`,
+      requestOptions
+    );
+    let data = await response.json();
+    if (data.success) {
+      dispatch({ type: "BED_UPDATE_SUCCESS" });
+      return data;
+    }
+    dispatch({ type: "BED_UPDATE_ERROR"});
+    return data;
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: "BED_UPDATE_ERROR"});
+    return false;
+  }
+}
+
 export async function changePasswordAdmin(dispatch, passwordPayload) {
   const requestOptions = {
     method: "POST",

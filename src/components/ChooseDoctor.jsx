@@ -7,8 +7,11 @@ import { Navigation } from "./Navigation";
 const DoctorCard = (props) => {
   const dispatch = useAuthDispatch(),
     { token, loading } = useAuthState();
-  const onClickHandler = async() => {
-    let data = await visit(dispatch, { token: "patient " + token, consultant: props.id });
+  const onClickHandler = async () => {
+    let data = await visit(dispatch, {
+      token: "patient " + token,
+      consultant: props.id,
+    });
     if (data && data.success) props.PROPS.history.push("/visit");
   };
   return (
@@ -95,7 +98,7 @@ const ChooseDoctor = (props) => {
   else if (!state.doctors.length)
     return (
       <div>
-        <Navigation homelink="/patient" />
+        <Navigation homelink="/patient" active="choosedoctor" />
         <div className="container">
           <div className="row mt-5"></div>
           <div className="row mt-5"></div>
@@ -126,7 +129,7 @@ const ChooseDoctor = (props) => {
   else
     return (
       <div>
-        <Navigation homelink="/patient" />
+        <Navigation homelink="/patient" active="choosedoctor" />
         <div className="container">
           <div className="row m-3">
             <div className="col-md-8 offset-md-2">

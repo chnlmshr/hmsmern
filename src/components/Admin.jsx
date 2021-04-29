@@ -7,7 +7,107 @@ import {
   loginAdmin,
   registerDoctor,
   logout,
+  bedUpdate,
 } from "../Context";
+
+const Beds = (props) => {
+  const initialState = {
+    speciality: "",
+    maxcapacity: "",
+    successMessage: "",
+    errorMessage: "",
+  };
+  const [state, setState] = useState(initialState);
+  const dispatch = useAuthDispatch();
+  const { loading, token } = useAuthState();
+
+  const handleOnChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+      successMessage: "",
+      errorMessage: "",
+    });
+  };
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const data = await bedUpdate(dispatch, {
+        speciality: state.speciality,
+        maxcapacity: state.maxcapacity,
+        token: "admin " + token,
+      });
+      if (!data || !data.success)
+        setState({
+          ...state,
+          errorMessage: "Something went Wrong!",
+          successMessage: "",
+        });
+      else
+        setState({
+          ...state,
+          successMessage: "Beds Updated Successfully",
+          errorMessage: "",
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <form className="p-3" onSubmit={handleOnSubmit}>
+      <h5 className="pb-3">Update Beds</h5>
+      <div className="input-group mb-3">
+        <select
+          name="speciality"
+          className="custom-select"
+          value={state.speciality}
+          onChange={handleOnChange}
+          required
+        >
+          <option value="">Choose speciality</option>
+          <option value="General">General</option>
+          <option value="Children">Children</option>
+          <option value="Gynecology">Gynecology</option>
+          <option value="Cardiology">Cardiology</option>
+          <option value="Pulmonology">Pulmonology</option>
+          <option value="Nephrology">Nephrology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Oncology">Oncology</option>
+          <option value="Orthopaedics">Orthopaedics</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <div className="input-group-text">Total Number of Beds</div>
+          </div>
+          <input
+            type="number"
+            className="form-control"
+            name="maxcapacity"
+            aria-describedby="error"
+            value={state.degree}
+            onChange={handleOnChange}
+            required
+          />
+        </div>
+        <small id="error" className="form-text">
+          {state.errorMessage}
+          <div className="successMessage">{state.successMessage}</div>
+        </small>
+      </div>
+      <button
+        disabled={loading}
+        type="submit"
+        className="btn btn-primary float-right"
+      >
+        Update
+      </button>
+    </form>
+  );
+};
 
 export const AdminLogin = (props) => {
   const initialState = {
@@ -211,9 +311,14 @@ export const Admin = (props) => {
       </nav>
       <div className="container my-md-5">
         <div className="row">
-          <div className="col-md-6 offset-md-3">
+          <div className="col-md-6">
             <div className="form-container my-5 pb-5 px-3 pt-2">
               <Doctor />
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-container my-5 pb-5 px-3 pt-2">
+              <Beds />
             </div>
           </div>
         </div>

@@ -113,13 +113,15 @@ export const Reception = (props) => {
                       >
                         <option value="">Choose Department</option>
                         <option value="Dental">Dental</option>
+                        <option value="General">General</option>
+                        <option value="Children">Children</option>
                         <option value="ENT">ENT(Ear Nose Throat)</option>
                         <option value="Gynecology">
                           Gynecology(Female eproductive System)
                         </option>
                         <option value="Cardiology">Cardiology(Heart)</option>
                         <option value="Pulmonology">Pulmonology(Lungs)</option>
-                        <option value="Neprology">Neprology(Kidney)</option>
+                        <option value="Nephrology">Nephrology(Kidney)</option>
                         <option value="Neurology">
                           Neurology(Nervous System)
                         </option>

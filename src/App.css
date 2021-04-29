@@ -9,12 +9,17 @@
 }
 
 .navbar-button {
-  background-color: #005fcc;
+  background-color: #00000000;
+  color: #ffffffd2;
+}
+
+.navbar-button.active {
+  background-color: #00000000;
   color: #fff;
 }
 
 .navbar-button:hover {
-  background-color: #004ca3;
+  background-color: #00000000;
   color: #fff;
 }
 
@@ -106,4 +111,8 @@
     left: 0;
     top: 0;
   }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }

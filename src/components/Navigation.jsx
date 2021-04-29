@@ -43,15 +43,7 @@ export const Navigation = (props) => {
                 Account
               </a>
             </li>
-            <li
-              className={
-                "nav-item " + (props.active === "report" ? "active" : "")
-              }
-            >
-              <a className="nav-link" href={"/report"}>
-                Report
-              </a>
-            </li>
+            
             <li
               className={
                 "nav-item " + (props.active === "reception" ? "active" : "")
@@ -68,6 +60,15 @@ export const Navigation = (props) => {
             >
               <a className="nav-link" href={"/choosedoctor"}>
                 Choose Doctor
+              </a>
+            </li>
+            <li
+              className={
+                "nav-item " + (props.active === "report" ? "active" : "")
+              }
+            >
+              <a className="nav-link" href={"/report"}>
+                Report
               </a>
             </li>
           </ul>

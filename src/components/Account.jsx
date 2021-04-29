@@ -375,11 +375,13 @@ export const DoctorAccount = (props) => {
                       >
                         <option value="">Choose speciality</option>
                         <option value="Dental">Dental</option>
+                        <option value="General">General</option>
+                        <option value="Children">Children</option>
                         <option value="ENT">ENT</option>
                         <option value="Gynecology">Gynecology</option>
                         <option value="Cardiology">Cardiology</option>
                         <option value="Pulmonology">Pulmonology</option>
-                        <option value="Neprology">Neprology</option>
+                        <option value="Nephrology">Nephrology</option>
                         <option value="Neurology">Neurology</option>
                         <option value="Oncology">Oncology</option>
                         <option value="Orthopaedics">Orthopaedics</option>

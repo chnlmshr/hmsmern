@@ -6,34 +6,51 @@ import {
   useAuthState,
 } from "../Context";
 
-const Doctor = (props) => {
+const LoginForm = (props) => {
   const initialState = {
     email: "",
     password: "",
+    doctor: false,
   };
   const [state, setState] = useState(initialState);
   const dispatch = useAuthDispatch();
   const { loading, errorMessage } = useAuthState();
 
   const handleOnChange = (event) =>
-    setState({ ...state, [event.target.name]: event.target.value });
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+      doctor: event.target.name === "doctor" ? !state.doctor : state.doctor,
+    });
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
-
-    try {
-      let response = await loginDoctor(dispatch, state);
-      if (!response && !response.doctor) {
-        return;
+    if (state.doctor) {
+      try {
+        let response = await loginDoctor(dispatch, state);
+        if (!response && !response.doctor) {
+          return;
+        }
+        props.history.push("/doctor");
+      } catch (error) {
+        console.log(error);
       }
-      props.history.push("/doctor");
-    } catch (error) {
-      console.log(error);
+    } else {
+      try {
+        let response = await loginPatient(dispatch, state);
+        if (!response && !response.patient) {
+          return;
+        }
+        props.history.push("/patient");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   return (
     <form className="p-3" onSubmit={handleOnSubmit}>
+      <h5 className="pb-3">Login</h5>
       <div className="form-group">
         <input
           type="email"
@@ -59,77 +76,28 @@ const Doctor = (props) => {
           {errorMessage}
         </small>
       </div>
-      <button
-        type="submit"
-        className="btn btn-primary float-right"
-        disabled={loading}
-      >
-        Login
-      </button>
-    </form>
-  );
-};
-
-const Patient = (props) => {
-  const initialState = {
-    email: "",
-    password: "",
-  };
-  const [state, setState] = useState(initialState);
-  const dispatch = useAuthDispatch();
-  const { loading, errorMessage } = useAuthState();
-
-  const handleOnChange = (event) =>
-    setState({ ...state, [event.target.name]: event.target.value });
-
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      let response = await loginPatient(dispatch, state);
-      if (!response && !response.patient) {
-        return;
-      }
-      props.history.push("/patient");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return (
-    <form className="p-3" onSubmit={handleOnSubmit}>
-      <div className="form-group">
-        <input
-          type="email"
-          className="form-control"
-          name="email"
-          value={state.email}
-          onChange={handleOnChange}
-          placeholder="Email"
-        />
+      <div className="row">
+        <div className="col-md-6">
+          <input
+            type="checkbox"
+            name="doctor"
+            id="doctor"
+            className="m-2"
+            checked={state.doctor}
+            onChange={handleOnChange}
+          />
+          <label htmlFor="doctor">Login as a doctor</label>
+        </div>
+        <div className="col-md-6">
+          <button
+            disabled={loading}
+            type="submit"
+            className="btn btn-primary float-right"
+          >
+            Login
+          </button>
+        </div>
       </div>
-      <div className="form-group">
-        <input
-          type="password"
-          className="form-control"
-          name="password"
-          aria-describedby="error"
-          minLength={6}
-          value={state.password}
-          onChange={handleOnChange}
-          placeholder="Password"
-        />
-        <small id="error" className="form-text">
-          {errorMessage}
-        </small>
-      </div>
-      <button
-        disabled={loading}
-        type="submit"
-        className="btn btn-primary float-right"
-      >
-        Login
-      </button>
     </form>
   );
 };
@@ -143,7 +111,7 @@ export const Login = (props) => {
             HMS
           </a>
           <div>
-            <a className="btn navbar-button" href="">
+            <a className="btn navbar-button active" href="">
               Login
             </a>
             <a className="btn navbar-button ml-3" href="/register">
@@ -157,52 +125,7 @@ export const Login = (props) => {
           <div className="col-md-6 offset-md-3">
             <div className="card form-container">
               <div className="card-body">
-                <ul className="nav nav-tabs" id="loginTab" role="tablist">
-                  <li className="nav-item">
-                    <a
-                      className="nav-link active"
-                      id="doctorlogin-tab"
-                      data-toggle="tab"
-                      href="#doctorlogin"
-                      role="tab"
-                      aria-controls="doctorlogin"
-                      aria-selected="true"
-                    >
-                      Doctor
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      id="patientlogin-tab"
-                      data-toggle="tab"
-                      href="#patientlogin"
-                      role="tab"
-                      aria-controls="patientlogin"
-                      aria-selected="false"
-                    >
-                      Patient
-                    </a>
-                  </li>
-                </ul>
-                <div className="tab-content" id="loginTabContent">
-                  <div
-                    className="tab-pane fade show active"
-                    id="doctorlogin"
-                    role="tabpanel"
-                    aria-labelledby="doctorlogin-tab"
-                  >
-                    <Doctor {...props} />
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="patientlogin"
-                    role="tabpanel"
-                    aria-labelledby="patientlogin-tab"
-                  >
-                    <Patient {...props} />
-                  </div>
-                </div>
+                <LoginForm {...props} />
               </div>
             </div>
           </div>

@@ -208,6 +208,25 @@ export const AuthReducer = (initialState, action) => {
         ...initialState,
         loading: false,
       };
+
+    case "REQUEST_BED_UPDATE":
+      return {
+        ...initialState,
+        loading: true,
+      };
+
+    case "BED_UPDATE_SUCCESS":
+      return {
+        ...initialState,
+        loading: false,
+      };
+
+    case "BED_UPDATE_ERROR":
+      return {
+        ...initialState,
+        loading: false,
+      };
+
     case "DOC_REGISTERED":
       return {
         ...initialState,

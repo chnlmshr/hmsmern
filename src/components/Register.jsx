@@ -6,134 +6,7 @@ import {
   useAuthState,
 } from "../Context";
 
-const Doctor = (props) => {
-  const initialState = {
-    name: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-    phone: "",
-    speciality: "",
-    degree: "",
-  };
-  const [state, setState] = useState(initialState);
-  const dispatch = useAuthDispatch();
-  const { loading, errorMessage } = useAuthState();
-
-  const handleOnChange = (event) =>
-    setState({ ...state, [event.target.name]: event.target.value });
-
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      let response = await registerDoctor(dispatch, state);
-      if (!response && !response.doctor) {
-        return;
-      }
-      props.history.push("/doctor");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return (
-    <form className="p-3" onSubmit={handleOnSubmit}>
-      <div className="form-group">
-        <input
-          type="text"
-          className="form-control"
-          name="name"
-          value={state.name}
-          onChange={handleOnChange}
-          placeholder="Name"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="email"
-          className="form-control"
-          name="email"
-          value={state.email}
-          onChange={handleOnChange}
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="password"
-          className="form-control"
-          name="password"
-          minLength={6}
-          value={state.password}
-          onChange={handleOnChange}
-          placeholder="Password"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="password"
-          className="form-control"
-          name="confirmpassword"
-          minLength={6}
-          value={state.confirmpassword}
-          onChange={handleOnChange}
-          placeholder="Confirm Password"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="phone"
-          className="form-control"
-          name="phone"
-          value={state.phone}
-          onChange={handleOnChange}
-          placeholder="Phone"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="text"
-          className="form-control"
-          name="speciality"
-          value={state.speciality}
-          onChange={handleOnChange}
-          placeholder="Speciality"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="text"
-          className="form-control"
-          name="degree"
-          aria-describedby="error"
-          value={state.degree}
-          onChange={handleOnChange}
-          placeholder="Degree"
-          required
-        />
-        <small id="error" className="form-text">
-          {errorMessage}
-        </small>
-      </div>
-      <button
-        type="submit"
-        className="btn btn-primary float-right"
-        disabled={loading}
-      >
-        Register
-      </button>
-    </form>
-  );
-};
-
-const Patient = (props) => {
+const RegisterForm = (props) => {
   const initialState = {
     name: "",
     email: "",
@@ -281,7 +154,7 @@ export const Register = (props) => {
             <a className="btn navbar-button" href="/login">
               Login
             </a>
-            <a className="btn navbar-button ml-3" href="">
+            <a className="btn navbar-button ml-3 active" href="">
               Register
             </a>
           </div>
@@ -292,7 +165,7 @@ export const Register = (props) => {
           <div className="col-md-6 offset-md-3">
             <div className="card form-container">
               <div className="card-body">
-                <Patient {...props} />
+                <RegisterForm {...props} />
               </div>
             </div>
           </div>
