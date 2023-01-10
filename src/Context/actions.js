@@ -1,6 +1,6 @@
 // ======================== Common =============================
 
-const ROOT_URL = "https://hmsmernserver.herokuapp.com";
+const ROOT_URL = "https://hmsmernserver.vercel.app";
 
 export async function logout(dispatch) {
   dispatch({ type: "LOGOUT" });
